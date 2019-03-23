@@ -1,0 +1,58 @@
+library("readxl", lib.loc="/Library/Frameworks/R.framework/Versions/3.5/Resources/library")
+file12t <- as.matrix(read_xlsx("/Users/greegorov/Downloads/plot.xlsx", sheet=3))
+par(mfrow=c(3,4), mar=c(5, 4, 4, 2) + 0.1)
+for (i in c(1:10)) {
+  hist(file12t[ ,i], 
+     breaks=20,
+     main = paste(colnames(file12t)[i] , ", N=",length(which(file12t[, i] > 0))),
+     xlab = "Productivity, mg/L",
+     ylab = "Frequency",
+     col = "blue"
+     )}
+
+
+par(mfrow=c(1,1), mar=c(13, 4, 1, 1))
+boxplot(subset.data.frame(file12t), ylab = "Productivity, mg/L", las = 2, outcol="red", outpch=19)
+
+
+
+
+
+
+ggplot() subset(f, f$plasmid == "CHO-M pGNR088-001"), aes(x=day, y=average)) +
+  geom_ribbon(aes(ymin=average-stdev, ymax=average+stdev),
+              alpha=0.2) +
+  geom_line() +
+ggplot() subset(f, f$plasmid == "CHO-M pGNR088-002"), aes(x=day, y=average)) +
+  geom_ribbon(aes(ymin=average-stdev, ymax=average+stdev),
+              alpha=0.2) +
+  geom_line()
+
+
+library(ggplot2)
+f <- as.data.frame(read_xlsx("/Users/greegorov/Downloads/plot.xlsx", sheet=3))
+f[,3] <- sapply(f[,3], as.numeric)
+colnames(f) <- c("plasmid", "day", "Productivity")
+ggplot(subset(f, f$plasmid == "CHO-M pGNR088-001"),aes(x=day, y=Productivity))+
+  geom_line(aes(color="CHO-M pGNR088-001"))+
+  geom_line(data=subset(f, f$plasmid == "CHO-M pGNR088-002"),aes(color="CHO-M pGNR088-002"))+
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-002"),aes(color="CHO-GEN pGNR088-002")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-003"),aes(color="CHO-GEN pGNR088-003")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-005"),aes(color="CHO-GEN pGNR088-005")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-006"),aes(color="CHO-GEN pGNR088-006")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-007"),aes(color="CHO-GEN pGNR088-007")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-008"),aes(color="CHO-GEN pGNR088-008")) +
+  geom_line(data=subset(f, f$plasmid == "CHO-GEN pGNR088-009"),aes(color="CHO-GEN pGNR088-009")) +
+  labs(color="Cell line+plasmid")
+
+#PCD fed-batch 9th day averege for vector
+library("readxl", lib.loc="/Library/Frameworks/R.framework/Versions/3.5/Resources/library")
+file12t <- as.data.frame(read_xlsx("/Users/greegorov/Downloads/plot.xlsx", sheet=4, col_names = F))
+colnames(file12t) <- c("PCD", "Vector")
+
+par(mfrow=c(1,1), mar=c(12, 4, 1, 2) + 0.1)
+boxplot(file12t[,1])
+
+library("ggpubr", lib.loc="/Library/Frameworks/R.framework/Versions/3.5/Resources/library")
+
+boxplot(PCD~Vector, data = file12t, las = 2, outpch=19, ylab="PCD, pg/cell/day")
