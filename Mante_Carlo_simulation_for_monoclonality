@@ -1,0 +1,13 @@
+x <- runif (10000, 0, 3.1416*17.5)
+y <- runif (10000, 0, 3.1416*17.5)
+r <- rnorm (10000, 0.5, 0)
+C <- cbind(x,y,r)
+D <- C
+
+func.c2 <- function(i,j) {
+  (C[i,1]-D[j,1])^2+(C[i,2]-D[j,2])^2 <= (C[i,3]+D[j,3])^2
+}
+
+dp <- matrix(ncol = 10000, nrow = 10000)
+for (i in 1:10000) {dp[i,] <- func.c2(i, )}
+100-mean(colSums(dp)-1)/10000*100
